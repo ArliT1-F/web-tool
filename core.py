@@ -3,6 +3,7 @@ import json
 import socket
 import requests
 import argparse
+import asyncio
 from urllib.parse import urlparse
 from datetime import datetime
 from rich.console import Console
@@ -22,13 +23,14 @@ from scanner.auth_scanner import find_login_forms
 from scanner.dir_brute import brute_common_paths
 from scanner.heuristics import detect_sqli_xss
 from scanner.anti_bot import detect_bot_protection
+from scanner.async_tools import extract_links_async, brute_force_subdomains_async, load_plugins, run_plugins
 
 console = Console()
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 SUBDOMAIN_WORDLIST = ["www", "mail", "admin", "test", "api", "dev"]
 COMMON_PATHS = ["admin", "backup", ".git", "phpinfo.php", "config"]
 
-def scan_website(url, fast_mode=False):
+def scan_website(url, fast_mode=False, use_plugins=False):
     console.rule(f"[bold cyan]Scanning {url}...")
     scan_summary = {"url": url, "datetime": str(datetime.now()), "reports": []}
 
@@ -51,11 +53,17 @@ def scan_website(url, fast_mode=False):
         scan_summary["vulnerabilities"] = check_known_vuln_paths(url)
         
         if not fast_mode:
-            scan_summary["subdomains"] = brute_force_subdomains(domain, SUBDOMAIN_WORDLIST)
+            subdomains = asyncio.run(brute_force_subdomains_async(domain, SUBDOMAIN_WORDLIST))
+            scan_summary["subdomains"] = subdomains
             scan_summary["tech_stack"] = fingerprint_tech_stack(headers, body)
             scan_summary["auth_forms"] = find_login_forms(url)
             scan_summary["dir_brute"] = brute_common_paths(url, COMMON_PATHS)
             scan_summary["anti_bot"] = detect_bot_protection(headers, body)
+
+        if use_plugins:
+            plugins = load_plugins()
+            plugin_results = run_plugins(plugins, url, body, headers)
+            scan_summary["plugins"] = plugin_results
     
     except Exception as e:
         console.print(f"[red]Scan failed: {e}")
@@ -63,7 +71,7 @@ def scan_website(url, fast_mode=False):
         save_scan_report(scan_summary, f"scan_{urlparse(url).netloc}.json")
         return
     
-    all_links, error = extract_links(url)
+    all_links, error = asyncio.run(extract_links_async(url))
     if error:
         scan_summary["link_extraction_error"] = error
     
@@ -98,5 +106,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Website Security Scanner")
     parser.add_argument("url", help="Target website URL")
     parser.add_argument("--fast", action="store_true", help="Skip slow scans like WHOIS, subdomains")
+    parser.add_argument("--use-plugins", action="store_true", help="Run additional plugins")
     args = parser.parse_args()
-    scan_website(args.url, fast_mode=args.fast)
+    scan_website(args.url, fast_mode=args.fast, use_plugins=args.plugins)
