@@ -1,0 +1,42 @@
+{
+  "url": "https://albanianpath.com",
+  "datetime": "2025-05-26 22:32:15.463516",
+  "reports": [],
+  "headers": {
+    "Content-Security-Policy": "Missing",
+    "X-Content-Type-Options": "Missing",
+    "Strict-Transport-Security": "Missing",
+    "X-Frame-Options": "Missing"
+  },
+  "waf": {},
+  "ssl": {
+    "error": "[Errno -2] Name or service not known"
+  },
+  "vulnerabilities": {
+    "/.git/": "Exposed",
+    "/.admin/": "Exposed",
+    "/phpinfo.php": "Exposed",
+    "/.env/": "Exposed"
+  },
+  "subdomains": [
+    "www.albanianpath.com",
+    "mail.albanianpath.com",
+    "admin.albanianpath.com",
+    "test.albanianpath.com",
+    "api.albanianpath.com",
+    "dev.albanianpath.com"
+  ],
+  "tech_stack": {
+    "server": "Unknown",
+    "x_powered_by": "Unknown"
+  },
+  "auth_forms": [],
+  "dir_brute": [
+    "admin",
+    "backup",
+    ".git",
+    "phpinfo.php",
+    "config"
+  ],
+  "anti_bot": []
+}

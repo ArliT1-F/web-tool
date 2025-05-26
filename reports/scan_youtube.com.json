@@ -1,141 +1,35 @@
 {
-    "url": "https://youtube.com",
-    "datetime": "2025-05-23 00:33:58.974064",
-    "links": [
-        "https://www.youtube.com/about/",
-        "https://www.youtube.com/howyoutubeworks?utm_campaign=ytgen&utm_source=ythp&utm_medium=LeftNav&utm_content=txt&u=https%3A%2F%2Fwww.youtube.com%2Fhowyoutubeworks%3Futm_source%3Dythp%26utm_medium%3DLeftNav%26utm_campaign%3Dytgen",
-        "https://youtube.com/t/privacy",
-        "https://youtube.com/t/contact_us/",
-        "https://www.youtube.com/creators/",
-        "https://youtube.com/t/terms",
-        "https://developers.google.com/youtube",
-        "https://www.youtube.com/about/press/",
-        "https://www.youtube.com/about/policies/",
-        "https://www.youtube.com/ads/",
-        "https://www.youtube.com/about/copyright/",
-        "https://youtube.com/",
-        "https://youtube.com/new"
-    ],
-    "errors": null,
-    "reports": [
-        {
-            "link": "https://www.youtube.com/about/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.14"
-        },
-        {
-            "link": "https://www.youtube.com/howyoutubeworks?utm_campaign=ytgen&utm_source=ythp&utm_medium=LeftNav&utm_content=txt&u=https%3A%2F%2Fwww.youtube.com%2Fhowyoutubeworks%3Futm_source%3Dythp%26utm_medium%3DLeftNav%26utm_campaign%3Dytgen",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.209.46"
-        },
-        {
-            "link": "https://youtube.com/t/privacy",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        },
-        {
-            "link": "https://youtube.com/t/contact_us/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        },
-        {
-            "link": "https://www.youtube.com/creators/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.209.46"
-        },
-        {
-            "link": "https://youtube.com/t/terms",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        },
-        {
-            "link": "https://developers.google.com/youtube",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.204.142"
-        },
-        {
-            "link": "https://www.youtube.com/about/press/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        },
-        {
-            "link": "https://www.youtube.com/about/policies/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.204.238"
-        },
-        {
-            "link": "https://www.youtube.com/ads/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.205.46"
-        },
-        {
-            "link": "https://www.youtube.com/about/copyright/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "216.58.209.46"
-        },
-        {
-            "link": "https://youtube.com/",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        },
-        {
-            "link": "https://youtube.com/new",
-            "virustotal_error": "VirusTotal API key not found",
-            "whois": "WHOIS lookup failed: 'Domain' object has no attribute 'status'",
-            "ip": "142.251.209.46"
-        }
-    ],
-    "security_headers": {
-        "Content-Security-Policy": "require-trusted-types-for 'script'",
-        "X-Content-Type-Options": "nosniff",
-        "Strict-Transport-Security": "max-age=31536000",
-        "X-Frame-Options": "SAMEORIGIN"
-    },
-    "waf": {
-        "Server": "ESF"
-    },
-    "ssl": {
-        "issuer": [
-            [
-                [
-                    "countryName",
-                    "US"
-                ]
-            ],
-            [
-                [
-                    "organizationName",
-                    "Google Trust Services"
-                ]
-            ],
-            [
-                [
-                    "commonName",
-                    "WR2"
-                ]
-            ]
-        ],
-        "subject": [
-            [
-                [
-                    "commonName",
-                    "*.google.com"
-                ]
-            ]
-        ],
-        "notBefore": "Apr 21 08:40:42 2025 GMT",
-        "notAfter": "Jul 14 08:40:41 2025 GMT"
-    }
+  "url": "https://youtube.com",
+  "datetime": "2025-05-26 22:33:49.805777",
+  "reports": [],
+  "headers": {
+    "Content-Security-Policy": "require-trusted-types-for 'script'",
+    "X-Content-Type-Options": "nosniff",
+    "Strict-Transport-Security": "max-age=31536000",
+    "X-Frame-Options": "SAMEORIGIN"
+  },
+  "waf": {
+    "Server": "ESF"
+  },
+  "ssl": {
+    "error": "[Errno -2] Name or service not known"
+  },
+  "vulnerabilities": {},
+  "subdomains": [
+    "www.youtube.com",
+    "admin.youtube.com"
+  ],
+  "tech_stack": {
+    "server": "ESF",
+    "x_powered_by": "Unknown",
+    "language": "JavaScript"
+  },
+  "auth_forms": [],
+  "dir_brute": [
+    "backup",
+    "config"
+  ],
+  "anti_bot": [
+    "Captcha detected"
+  ]
 }
