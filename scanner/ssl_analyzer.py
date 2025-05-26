@@ -22,7 +22,7 @@ def analyze_ssl(domain_or_url):
                     "issuer": cert.get("issuer"),
                     "subject": cert.get("subject"),
                     "valid_from": cert.get("notBefore"),
-                    "valid_to": cert.get("notAfter"),
+                    "valid_until": cert.get("notAfter"),
                 }
             
     except socket.gaierror:
