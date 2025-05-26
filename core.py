@@ -24,6 +24,7 @@ from scanner.dir_brute import brute_common_paths
 from scanner.heuristics import detect_sqli_xss
 from scanner.anti_bot import detect_bot_protection
 from scanner.async_tools import extract_links_async, brute_force_subdomains_async, load_plugins, run_plugins
+from scanner.profiling import get_host_profile, fingerprint_cves, calculate_risk_score
 
 console = Console()
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
@@ -59,6 +60,8 @@ def scan_website(url, fast_mode=False, use_plugins=False):
             scan_summary["auth_forms"] = find_login_forms(url)
             scan_summary["dir_brute"] = brute_common_paths(url, COMMON_PATHS)
             scan_summary["anti_bot"] = detect_bot_protection(headers, body)
+            scan_summary["crawl"] = crawl_site(url)
+            scan_summary["cve_matches"] = fingerprint_cves(scan_summary["tech_stack"])
 
         if use_plugins:
             plugins = load_plugins()
@@ -83,10 +86,17 @@ def scan_website(url, fast_mode=False, use_plugins=False):
             report["whois"] = get_whois_info(link) if not fast_mode else "skipped"
             report["heuristics"] = detect_sqli_xss(link)
         try:
-            report["ip"] = socket.gethostbyname(urlparse(link).netloc)
+            ip = socket.gethostbyname(urlparse(link).netloc)
+            report["ip"] = ip
+            report["host_profile"] = get_host_profile(ip)
+            
         except:
             report["ip"] = None
+            report["host_profile"] = {"error": "Could not resolve IP"}
             scan_summary["reports"].append(report)
+
+    # Final risk score
+    scan_summary["risk"] = calculate_risk_score(scan_summary)
 
     save_scan_report(scan_summary, f"scan_{urlparse(url).netloc}.json")
     console.print(f"[green]\nScan completed. Report saved.\n")
