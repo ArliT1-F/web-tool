@@ -16,7 +16,7 @@ from scanner.spider import crawl_site
 from scanner.extract import detect_ip_grabber, extract_links
 from scanner.ip_tools import validate_target, get_whois_info
 from scanner.virustotal import check_virustotal
-from scanner.report import save_scan_report
+from scanner.report import save_scan_report, export_html_report, export_md_report
 from scanner.subdomains import brute_force_subdomains
 from scanner.stack_fingerprint import fingerprint_tech_stack
 from scanner.auth_scanner import find_login_forms
@@ -31,14 +31,29 @@ VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 SUBDOMAIN_WORDLIST = ["www", "mail", "admin", "test", "api", "dev"]
 COMMON_PATHS = ["admin", "backup", ".git", "phpinfo.php", "config"]
 
-def scan_website(url, fast_mode=False, use_plugins=False):
+def scan_website(url, fast_mode=False, use_plugins=False, output_format="json"):
     console.rule(f"[bold cyan]Scanning {url}...")
     scan_summary = {"url": url, "datetime": str(datetime.now()), "reports": []}
 
     if not validate_target(url):
         console.print("[red]Target blocked or invalid.")
         scan_summary["error"] = "Target blocked"
-        save_scan_report(scan_summary, f"scan_{urlparse(url).netloc}.json")
+        domain = urlparse(url).netloc
+        basename = f"scan_{domain}"
+        output_path = f"reports/{basename}.{output_format}"
+
+        if output_format == "html":
+            result = export_html_report(scan_summary, output_path)
+        elif output_format == "md":
+            result = export_md_report(scan_summary, output_path)
+        else:
+            save_scan_report(scan_summary, output_path)
+            result = True
+
+        if result is True:
+            console.print(f"[yellow]\nScan aborted. Report saved to {output_path}\n")
+        else:
+            console.print(f"[red]\nScan aborted, and report failed to save: {result}\n")
         return
     
     try:
@@ -71,7 +86,22 @@ def scan_website(url, fast_mode=False, use_plugins=False):
     except Exception as e:
         console.print(f"[red]Scan failed: {e}")
         scan_summary["error"] = str(e)
-        save_scan_report(scan_summary, f"scan_{urlparse(url).netloc}.json")
+        domain = urlparse(url).netloc
+        basename = f"scan_{domain}"
+        output_path = f"reports/{basename}.{output_format}"
+
+        if output_format == "html":
+            result = export_html_report(scan_summary, output_path)
+        elif output_format == "md":
+            result = export_md_report(scan_summary, output_path)
+        else:
+            save_scan_report(scan_summary, output_path)
+            result = True
+
+        if result is True:
+            console.print(f"[yellow]\nScan aborted. Report saved to {output_path}\n")
+        else:
+            console.print(f"[red]\nScan aborted, and report failed to save: {result}\n")
         return
     
     all_links, error = asyncio.run(extract_links_async(url))
@@ -117,5 +147,6 @@ if __name__ == "__main__":
     parser.add_argument("url", help="Target website URL")
     parser.add_argument("--fast", action="store_true", help="Skip slow scans like WHOIS, subdomains")
     parser.add_argument("--use-plugins", action="store_true", help="Run additional plugins")
+    parser.add_argument("--output", choices=["html", "md", "json"], default="json", help="Output report format (default: json)")
     args = parser.parse_args()
     scan_website(args.url, fast_mode=args.fast, use_plugins=args.plugins)
