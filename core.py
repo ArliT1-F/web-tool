@@ -25,13 +25,14 @@ from scanner.heuristics import detect_sqli_xss
 from scanner.anti_bot import detect_bot_protection
 from scanner.async_tools import extract_links_async, brute_force_subdomains_async, load_plugins, run_plugins
 from scanner.profiling import get_host_profile, fingerprint_cves, calculate_risk_score
+from scanner.active_tester import test_xss_sqli_in_url, test_xss_sqli_in_forms
 
 console = Console()
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 SUBDOMAIN_WORDLIST = ["www", "mail", "admin", "test", "api", "dev"]
 COMMON_PATHS = ["admin", "backup", ".git", "phpinfo.php", "config"]
 
-def scan_website(url, fast_mode=False, use_plugins=False, output_format="json"):
+def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", active_mode=False):
     console.rule(f"[bold cyan]Scanning {url}...")
     scan_summary = {"url": url, "datetime": str(datetime.now()), "reports": []}
 
@@ -115,6 +116,13 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json"):
             report["virustotal"] = check_virustotal(link) if not fast_mode else "skipped"
             report["whois"] = get_whois_info(link) if not fast_mode else "skipped"
             report["heuristics"] = detect_sqli_xss(link)
+            
+            if active_mode:
+                report["active_tests"] = {
+                    "xss_sqli_url": test_xss_sqli_in_url(link),
+                    "xss_sqli_forms": test_xss_sqli_in_forms(link)
+                }
+
         try:
             ip = socket.gethostbyname(urlparse(link).netloc)
             report["ip"] = ip
@@ -148,5 +156,6 @@ if __name__ == "__main__":
     parser.add_argument("--fast", action="store_true", help="Skip slow scans like WHOIS, subdomains")
     parser.add_argument("--use-plugins", action="store_true", help="Run additional plugins")
     parser.add_argument("--output", choices=["html", "md", "json"], default="json", help="Output report format (default: json)")
+    parser.add_argument("--active", action="store_true", help="Run active XSS/SQLi fuzz tests.")
     args = parser.parse_args()
-    scan_website(args.url, fast_mode=args.fast, use_plugins=args.plugins)
+    scan_website(args.url, fast_mode=args.fast, use_plugins=args.plugins, active_mode=args.active)
