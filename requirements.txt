@@ -1,1 +1,8 @@
-asyncio
+aiohttp
+beautifulsoup4
+certifi
+rich
+jinja2
+python-whois
+tldextract
+lxml
