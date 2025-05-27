@@ -54,13 +54,13 @@ def load_plugins(plugin_folder="plugins"):
                     plugins.append(mod)
         return plugins
     
-    def run_plugins(plugins, url, html, headers):
-        results = []
-        for plugin in plugins:
-            try:
-                result = plugin.run_plugin(url, html, headers)
-                if result:
-                    results.append({plugin.__name__: result})
-            except Exception as e:
-                results.append({plugin.__name__: f"Error: {str(e)}"})
-        return results
+def run_plugins(plugins, url, html, headers):
+    results = []
+    for plugin in plugins:
+        try:
+            result = plugin.run_plugin(url, html, headers)
+            if result:
+                results.append({plugin.__name__: result})
+        except Exception as e:
+            results.append({plugin.__name__: f"Error: {str(e)}"})
+    return results

@@ -26,11 +26,22 @@ from scanner.anti_bot import detect_bot_protection
 from scanner.async_tools import extract_links_async, brute_force_subdomains_async, load_plugins, run_plugins
 from scanner.profiling import get_host_profile, fingerprint_cves, calculate_risk_score
 from scanner.active_tester import test_xss_sqli_in_url, test_xss_sqli_in_forms
+from scanner.smart_detect import is_url_suspicious
 
 console = Console()
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 SUBDOMAIN_WORDLIST = ["www", "mail", "admin", "test", "api", "dev"]
 COMMON_PATHS = ["admin", "backup", ".git", "phpinfo.php", "config"]
+
+def convert_sets_to_lists(obj):
+    if isinstance(obj, dict):
+        return {k: convert_sets_to_lists(v) for k, v in obj.items()}
+    elif isinstance(obj, set):
+        return list(obj)
+    elif isinstance(obj, list):
+        return [convert_sets_to_lists(i) for i in obj]
+    else:
+        return obj
 
 def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", active_mode=False):
     console.rule(f"[bold cyan]Scanning {url}...")
@@ -105,9 +116,9 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
             console.print(f"[red]\nScan aborted, and report failed to save: {result}\n")
         return
     
-    all_links, error = asyncio.run(extract_links_async(url))
-    if error:
-        scan_summary["link_extraction_error"] = error
+    all_links = list(asyncio.run(extract_links_async(url)))
+    if not all_links:
+        scan_summary["link_extraction_error"] = "No links found or crawling failed"
     
     for link in all_links:
         report = {"link": link}
@@ -116,6 +127,18 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
             report["virustotal"] = check_virustotal(link) if not fast_mode else "skipped"
             report["whois"] = get_whois_info(link) if not fast_mode else "skipped"
             report["heuristics"] = detect_sqli_xss(link)
+            try:
+                js_snippets = []
+                resp = requests.get(link, timeout=10)
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(resp.text, 'html.parser')
+                for script in soup.find_all('script'):
+                    if script.string:
+                        js_snippets.appeend(script.string)
+                report["suspicious_analysis"] = is_url_suspicious(link, js_snippets)
+            except:
+                report["suspicious_analysis"] = {"error": "Failed to analyze scripts"}
+            
             
             if active_mode:
                 report["active_tests"] = {
@@ -136,7 +159,7 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
     # Final risk score
     scan_summary["risk"] = calculate_risk_score(scan_summary)
 
-    save_scan_report(scan_summary, f"scan_{urlparse(url).netloc}.json")
+    save_scan_report(convert_sets_to_lists(scan_summary), f"scan_{urlparse(url).netloc}.json")
     console.print(f"[green]\nScan completed. Report saved.\n")
 
     # Display summary table
@@ -150,7 +173,7 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
         table.add_row(k, str(v))
     console.print(table)
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Website Security Scanner")
     parser.add_argument("url", help="Target website URL")
     parser.add_argument("--fast", action="store_true", help="Skip slow scans like WHOIS, subdomains")
@@ -158,4 +181,12 @@ if __name__ == "__main__":
     parser.add_argument("--output", choices=["html", "md", "json"], default="json", help="Output report format (default: json)")
     parser.add_argument("--active", action="store_true", help="Run active XSS/SQLi fuzz tests.")
     args = parser.parse_args()
-    scan_website(args.url, fast_mode=args.fast, use_plugins=args.plugins, active_mode=args.active)
+    
+    
+    scan_website(
+        args.url,
+        fast_mode=args.fast,
+        use_plugins=args.use_plugins,
+        output_format=args.output,
+        active_mode=args.active
+    )
