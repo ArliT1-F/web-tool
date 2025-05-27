@@ -42,6 +42,10 @@ pip install -r requirements.txt
 ```bash
 python3 core.py https://example-website.com
 ```
+Create an ```.env``` file in the root directory, and paste your VirusTotal API key:
+```bash
+VIRUSTOTAL_API_KEY="YOUR_API_KEY"
+```
 #### *Options*
 ```bash
 ---fast       Skip heavy scans(VirusTotal, WHOIS, subdomains)
