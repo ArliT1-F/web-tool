@@ -159,9 +159,23 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
     # Final risk score
     scan_summary["risk"] = calculate_risk_score(scan_summary)
 
-    save_scan_report(convert_sets_to_lists(scan_summary), f"scan_{urlparse(url).netloc}.json")
-    console.print(f"[green]\nScan completed. Report saved.\n")
+    domain = urlparse(url).netloc
+    basename = f"scan_{domain}"
+    output_path = f"reports/{basename}.{output_format}"
 
+    # Save in the requested format
+    if output_format == "html":
+        result = export_html_report(convert_sets_to_lists(scan_summary), output_path)
+    elif output_format == "md":
+        result = export_md_report(convert_sets_to_lists(scan_summary), output_path)
+    else:
+        save_scan_report(convert_sets_to_lists(scan_summary), output_path)
+        result = True
+
+    if result is True:
+        console.print(f"[green]\nScan completed. Report saved to {output_path}\n")
+    else:
+        console.print(f"[red]\nScan completed, but report failed to save: {result}\n")
     # Display summary table
     table = Table(title="Scan Summary")
     table.add_column("Key", style="cyan", no_wrap=True)
