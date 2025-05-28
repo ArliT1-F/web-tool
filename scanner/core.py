@@ -27,6 +27,7 @@ from scanner.async_tools import extract_links_async, brute_force_subdomains_asyn
 from scanner.profiling import get_host_profile, fingerprint_cves, calculate_risk_score
 from scanner.active_tester import test_xss_sqli_in_url, test_xss_sqli_in_forms
 from scanner.smart_detect import is_url_suspicious
+from scanner.recon import fetch_robots_txt, fetch_sitemap_links, ScanSession
 
 console = Console()
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
@@ -43,9 +44,10 @@ def convert_sets_to_lists(obj):
     else:
         return obj
 
-def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", active_mode=False):
+def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", active_mode=False, auth_header=None, cookie_header=None):
     console.rule(f"[bold cyan]Scanning {url}...")
     scan_summary = {"url": url, "datetime": str(datetime.now()), "reports": []}
+    session = ScanSession(auth_header=auth_header, cookie_header=cookie_header)
 
     if not validate_target(url):
         console.print("[red]Target blocked or invalid.")
@@ -69,7 +71,7 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
         return
     
     try:
-        response = requests.get(url, timeout=10)
+        response = session.get(url)
         headers = response.headers
         body = response.text
         domain = urlparse(url).netloc
@@ -89,6 +91,10 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
             scan_summary["anti_bot"] = detect_bot_protection(headers, body)
             scan_summary["crawl"] = crawl_site(url)
             scan_summary["cve_matches"] = fingerprint_cves(scan_summary["tech_stack"])
+            scan_summary["recon"] = {
+                "robots_disallowed": fetch_robots_txt(url),
+                "sitemap_links": fetch_sitemap_links(url)
+            }
 
         if use_plugins:
             plugins = load_plugins()
@@ -129,7 +135,7 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
             report["heuristics"] = detect_sqli_xss(link)
             try:
                 js_snippets = []
-                resp = requests.get(link, timeout=10)
+                resp = session.get(link)
                 from bs4 import BeautifulSoup
                 soup = BeautifulSoup(resp.text, 'html.parser')
                 for script in soup.find_all('script'):
@@ -194,6 +200,8 @@ def main():
     parser.add_argument("--use-plugins", action="store_true", help="Run additional plugins")
     parser.add_argument("--output", choices=["html", "md", "json"], default="json", help="Output report format (default: json)")
     parser.add_argument("--active", action="store_true", help="Run active XSS/SQLi fuzz tests.")
+    parser.add_argument("--auth-header", help="Custom auth header (e.g., 'Authorization: Bearer xyz')")
+    parser.add_argument("--cookie", help="Custom cookie header")
     args = parser.parse_args()
     
     
@@ -202,5 +210,7 @@ def main():
         fast_mode=args.fast,
         use_plugins=args.use_plugins,
         output_format=args.output,
-        active_mode=args.active
+        active_mode=args.active,
+        auth_header=args.auth_header,
+        cookie_header=args.cookie
     )
