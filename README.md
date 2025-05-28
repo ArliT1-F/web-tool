@@ -84,7 +84,7 @@ websecscan https://example.com --output html --active --fast
 ---
 ## 📦 Install Locally
 ```bash
-git clone https://github.com/yourusername/websecscan.git
+git clone https://github.com/ArliT1-F/web-tool.git
 cd websecscan
 pip install .
 ```
