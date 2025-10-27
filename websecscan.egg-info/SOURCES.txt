@@ -1,3 +1,4 @@
+MANIFEST.in
 README.md
 setup.py
 scanner/__init__.py
@@ -21,6 +22,8 @@ scanner/stack_fingerprint.py
 scanner/subdomains.py
 scanner/virustotal.py
 scanner/vuln_check.py
+scanner/templates/report_template.html
+scanner/templates/report_template.md
 websecscan.egg-info/PKG-INFO
 websecscan.egg-info/SOURCES.txt
 websecscan.egg-info/dependency_links.txt

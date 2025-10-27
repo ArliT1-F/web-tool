@@ -3,7 +3,6 @@ from setuptools import setup, find_packages
 setup(
     name="websecscan",
     version="1.0.0",
-    author="Your Name",
     description="Advanced Website Security Scanner",
     packages=find_packages(),
     include_package_data=True,
