@@ -1,0 +1,179 @@
+{
+  "url": "https://youtube.com",
+  "datetime": "2025-05-27 23:36:20.476965",
+  "reports": [],
+  "headers": {
+    "Content-Security-Policy": "require-trusted-types-for 'script'",
+    "X-Content-Type-Options": "nosniff",
+    "Strict-Transport-Security": "max-age=31536000",
+    "X-Frame-Options": "SAMEORIGIN"
+  },
+  "waf": {
+    "Server": "ESF"
+  },
+  "ssl": {
+    "issuer": [
+      [
+        [
+          "countryName",
+          "US"
+        ]
+      ],
+      [
+        [
+          "organizationName",
+          "Google Trust Services"
+        ]
+      ],
+      [
+        [
+          "commonName",
+          "WR2"
+        ]
+      ]
+    ],
+    "subject": [
+      [
+        [
+          "commonName",
+          "*.google.com"
+        ]
+      ]
+    ],
+    "valid_from": "Apr 29 19:28:10 2025 GMT",
+    "valid_until": "Jul 22 19:28:09 2025 GMT"
+  },
+  "vulnerabilities": {},
+  "subdomains": [
+    "www.youtube.com",
+    "admin.youtube.com"
+  ],
+  "tech_stack": {
+    "server": "ESF",
+    "x_powered_by": "Unknown",
+    "language": "JavaScript"
+  },
+  "auth_forms": [],
+  "dir_brute": [
+    "backup",
+    "config"
+  ],
+  "anti_bot": [
+    "Captcha detected"
+  ],
+  "crawl": [
+    "https://youtube.com/t/privacy?hl=en#infodelete",
+    "https://youtube.com/t/terms#c3e2907ca8",
+    "https://youtube.com/t/privacy?hl=en#about",
+    "https://youtube.com/t/privacy?hl=en#footnote-server-logs",
+    "https://youtube.com/t/privacy?hl=en#infochoices",
+    "https://youtube.com/t/privacy?hl=en#footnote-ad-services",
+    "https://youtube.com/t/privacy/frameworks?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-safety-reliability",
+    "https://youtube.com/t/technologies/retention?hl=en",
+    "https://youtube.com/t/privacy/google-partners?hl=en",
+    "https://youtube.com/t/technologies?hl=en",
+    "https://youtube.com/t/privacy/key-terms?hl=en#key-terms",
+    "https://youtube.com/t/privacy/key-terms?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-activity-on-third-party",
+    "https://youtube.com/",
+    "https://youtube.com/t/privacy?hl=en#footnote-deliver-services",
+    "https://youtube.com/t/privacy?hl=en#footnote-other-sites",
+    "https://youtube.com/t/privacy?hl=en#footnote-sources",
+    "https://youtube.com/t/technologies/partner-sites?hl=en&hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-against-abuse",
+    "https://youtube.com/t/privacy?hl=en#footnote-customized-search",
+    "https://youtube.com/t/privacy?hl=en#footnote-trends",
+    "https://youtube.com/t/privacy?hl=en#footnote-info",
+    "https://youtube.com/t/privacy?hl=en#footnote-sensitive-info",
+    "https://youtube.com/t/privacy?hl=en#footnote-servers",
+    "https://youtube.com/t/privacy?hl=en#footnote-ensure-working",
+    "https://youtube.com/t/terms#20c5cf0fa6",
+    "https://youtube.com/yt/about",
+    "https://youtube.com/t/terms?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-useful-ads",
+    "https://youtube.com/t/terms#56eee99974",
+    "https://youtube.com/t/privacy?hl=en#products",
+    "https://youtube.com/t/privacy?hl=en#footnote-make-improvements",
+    "https://youtube.com",
+    "https://youtube.com/t/usage_paycontent",
+    "https://youtube.com/t/privacy?hl=en#footnote-pixel",
+    "https://youtube.com/t/terms#42d1acaf7a",
+    "https://youtube.com/t/privacy?hl=en#footnote-algorithm",
+    "https://youtube.com/t/privacy?hl=en#footnote-personalized-ads",
+    "https://youtube.com/t/privacy?hl=en#footnote-browser-storage",
+    "https://youtube.com/t/privacy?hl=en#footnote-phone-number",
+    "https://youtube.com/t/privacy?hl=en#footnote-android-device",
+    "https://youtube.com/t/privacy?hl=en#footnote-cookies",
+    "https://youtube.com/t/privacy?hl=en#footnote-unique-id",
+    "https://youtube.com/t/policy_cns",
+    "https://youtube.com/t/technologies/location-data?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-content-views",
+    "https://youtube.com/t/terms_paidservice",
+    "https://youtube.com/t/privacy?hl=en#footnote-application-data-cache",
+    "https://youtube.com/t/privacy?hl=en#whycollect",
+    "https://youtube.com/t/privacy?hl=en#footnote-ip",
+    "https://youtube.com/t/technologies/cookies?hl=en#types-of-cookies",
+    "https://youtube.com/t/privacy?hl=en#footnote-voice-audio-information",
+    "https://youtube.com/t/faq?hl=en",
+    "https://youtube.com/t/terms#27dc3bf5d9",
+    "https://youtube.com/t/privacy?hl=en#footnote-sensor-data",
+    "https://youtube.com/t/privacy?hl=en#footnote-referrer-url",
+    "https://youtube.com/t/technologies/cookies?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-places-you-label",
+    "https://youtube.com/t/technologies/product-privacy?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-near-device",
+    "https://youtube.com/t/technologies/ads?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-personal-info",
+    "https://youtube.com/t/privacy/archive?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-sensitive-categories",
+    "https://youtube.com/t/privacy?hl=en",
+    "https://youtube.com/t/privacy?hl=en#footnote-the-public",
+    "https://youtube.com/yt/dev",
+    "https://youtube.com/t/privacy?hl=en#footnote-affiliates",
+    "https://youtube.com/t/privacy?hl=en#footnote-payment-info",
+    "https://youtube.com/t/privacy?hl=en#footnote-rely-on-cookies",
+    "https://youtube.com/t/privacy?hl=en#footnote-our-users",
+    "https://youtube.com/t/terms",
+    "https://youtube.com/t/advertising_overview",
+    "https://youtube.com/t/privacy?hl=en#footnote-specific-partners",
+    "https://youtube.com/yt/jobs",
+    "https://youtube.com/t/privacy?hl=en#footnote-delete-specific",
+    "https://youtube.com/t/privacy?hl=en#enforcement",
+    "https://youtube.com/t/privacy?hl=en#footnote-legal",
+    "https://youtube.com/t/privacy?hl=en#footnote-chrome-sync",
+    "https://youtube.com/t/terms#8d13a409a3",
+    "https://youtube.com/t/press",
+    "https://youtube.com/t/privacy?hl=en#footnote-devices",
+    "https://youtube.com/t/privacy?hl=en#infocollect",
+    "https://youtube.com/t/technologies/partner-sites?hl=en",
+    "https://youtube.com/new",
+    "https://youtube.com/t/privacy?hl=en#footnote-people-online",
+    "https://youtube.com/t/privacy?hl=en#footnote-link-info",
+    "https://youtube.com/t/privacy?hl=en#footnote-combine-info",
+    "https://youtube.com/t/privacy",
+    "https://youtube.com/t/terms#8c38269fae",
+    "https://youtube.com/t/privacy?hl=en#footnote-calls-messages",
+    "https://youtube.com/t/contact_us/",
+    "https://youtube.com/t/privacy?hl=en#infosharing",
+    "https://youtube.com/t/terms#eb887a967c",
+    "https://youtube.com/t/privacy?hl=en#footnote-device",
+    "https://youtube.com/t/contentid",
+    "https://youtube.com/t/privacy?hl=en#footnote-activity-on-services",
+    "https://youtube.com/t/privacy?hl=en#inforetaining",
+    "https://youtube.com/t/privacy?hl=en#footnote-detect-abuse",
+    "https://youtube.com/t/community_guidelines",
+    "https://youtube.com/t/copyright_notice",
+    "https://youtube.com/t/privacy?hl=en#intro",
+    "https://youtube.com/t/privacy?hl=en#infosecurity"
+  ],
+  "cve_matches": {
+    "note": "No matching CVEs found for detected stack."
+  },
+  "risk": {
+    "risk_score": 4,
+    "penalties": [
+      "Open sensitive paths: 2"
+    ]
+  }
+}
