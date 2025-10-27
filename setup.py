@@ -21,10 +21,13 @@ setup(
             'websecscan = scanner.core:main'
         ]
     },
+    package_data={
+        "scanner": ["templates/*.html", "templates/*.md"],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent"
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.9',
 )

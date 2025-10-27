@@ -1,9 +1,12 @@
 import os
 import json
 from jinja2 import Environment, FileSystemLoader
+from pathlib import Path
 
-# Setup Jinja2 environment once
-template_loader = FileSystemLoader("./templates")
+# Setup Jinja2 environment once, resolving templates in-package
+PACKAGE_DIR = Path(__file__).resolve().parent
+DEFAULT_TEMPLATE_DIR = PACKAGE_DIR / "templates"
+template_loader = FileSystemLoader(str(DEFAULT_TEMPLATE_DIR))
 env = Environment(loader=template_loader)
 
 
