@@ -43,6 +43,7 @@ jobs:
             fi
           done < targets.txt
           touch reports/.nojekyll
+          touch templates/.nojekyll
 
       - name: Upload artifact (reports)
         uses: actions/upload-artifact@v4
