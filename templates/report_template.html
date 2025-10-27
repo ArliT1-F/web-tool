@@ -37,23 +37,35 @@
 
   <h2>🧬 Technology Stack</h2>
   <ul>
-    {% for tech in scan.tech_stack %}
-      <li>{{ tech }}</li>
-    {% endfor %}
+    {% if scan.tech_stack is defined and scan.tech_stack %}
+      {% for tech in scan.tech_stack %}
+        <li>{{ tech }}</li>
+      {% endfor %}
+    {% else %}
+      <li>None detected</li>
+    {% endif %}
   </ul>
 
   <h2>📌 CVE Matches</h2>
   <ul>
-    {% for k, v in scan.cve_matches.items() %}
-      <li><strong>{{ k }}</strong>: {{ v | join(", ") }}</li>
-    {% endfor %}
+    {% if scan.cve_matches is defined and scan.cve_matches %}
+      {% for k, v in scan.cve_matches.items() %}
+        <li><strong>{{ k }}</strong>: {{ v | join(", ") }}</li>
+      {% endfor %}
+    {% else %}
+      <li>None</li>
+    {% endif %}
   </ul>
 
   <h2>📁 Sensitive Paths</h2>
   <ul>
-    {% for path in scan.dir_brute %}
-      <li>{{ path }}</li>
-    {% endfor %}
+    {% if scan.dir_brute is defined and scan.dir_brute %}
+      {% for path in scan.dir_brute %}
+        <li>{{ path }}</li>
+      {% endfor %}
+    {% else %}
+      <li>None</li>
+    {% endif %}
   </ul>
 
   <h2>📊 Risk Score</h2>

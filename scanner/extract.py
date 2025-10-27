@@ -16,5 +16,5 @@ def extract_links(url):
 def detect_ip_grabber(url):
     import re
     patterns = [r'\d{10,}', r'[a-zA-Z]{20,}', r'[0-9a-f]{32}']
-    domains = ["grabify.link", "iplogger.org", "ipgrabber.io", "grabify.link"]
+    domains = ["grabify.link", "iplogger.org", "ipgrabber.io"]
     return any(re.search(p, url) for p in patterns) or any(d in url for d in domains)

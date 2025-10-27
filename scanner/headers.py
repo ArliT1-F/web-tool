@@ -8,5 +8,5 @@ def analyze_headers(headers):
     return {h: headers.get(h, "Missing") for h in important}
 
 def detect_waf(headers):
-    waf_keys = ["Server", "X-CDN", "CF-RAY", "X-Sucuro-ID", "X-Akamai"]
+    waf_keys = ["Server", "X-CDN", "CF-RAY", "X-Sucuri-ID", "X-Akamai"]
     return {k: headers[k] for k in waf_keys if k in headers}

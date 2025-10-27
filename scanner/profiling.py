@@ -99,7 +99,7 @@ def calculate_risk_score(scan_summary):
         if missing:
             penalties.append(f"Missing headers: {', '.join(missing)}")
 
-    if scan_summary.get("waf") in ["None", "", None]:
+    if not scan_summary.get("waf"):
         score += 5
         penalties.append("No WAF detected")
 
@@ -121,4 +121,3 @@ def calculate_risk_score(scan_summary):
 
     risk_score = min(score, 100)
     return {"risk_score": risk_score, "penalties": penalties}
-
