@@ -18,7 +18,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'websecscan = websecscan:main'
+            'websecscan = scanner.core:main'
         ]
     },
     classifiers=[

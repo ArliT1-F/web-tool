@@ -1,7 +1,7 @@
 # 🛡️ WebSecScan Report
 
 **Target:** https://example.com  
-**Scan Time:** 2025-10-27 18:18:22.048748
+**Scan Time:** 2025-10-27 18:28:40.472899
 
 ---
 

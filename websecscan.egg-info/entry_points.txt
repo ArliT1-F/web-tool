@@ -1,0 +1,2 @@
+[console_scripts]
+websecscan = scanner.core:main
