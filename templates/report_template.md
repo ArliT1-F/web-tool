@@ -25,23 +25,35 @@
 ---
 
 ## 🧬 Tech Stack
+{% if scan.tech_stack is defined and scan.tech_stack %}
 {% for tech in scan.tech_stack %}
 - {{ tech }}
 {% endfor %}
+{% else %}
+- None detected
+{% endif %}
 
 ---
 
 ## 📌 CVE Matches
+{% if scan.cve_matches is defined and scan.cve_matches %}
 {% for k, v in scan.cve_matches.items() %}
 - **{{ k }}:** {{ v | join(", ") }}
 {% endfor %}
+{% else %}
+- None
+{% endif %}
 
 ---
 
 ## 📁 Sensitive Paths Found
+{% if scan.dir_brute is defined and scan.dir_brute %}
 {% for path in scan.dir_brute %}
 - `{{ path }}`
 {% endfor %}
+{% else %}
+- None
+{% endif %}
 
 ---
 

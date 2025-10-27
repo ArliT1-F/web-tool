@@ -52,7 +52,7 @@ def load_plugins(plugin_folder="plugins"):
                 spec.loader.exec_module(mod)
                 if hasattr(mod, "run_plugin"):
                     plugins.append(mod)
-        return plugins
+    return plugins
     
 def run_plugins(plugins, url, html, headers):
     results = []
