@@ -140,9 +140,9 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
                 soup = BeautifulSoup(resp.text, 'html.parser')
                 for script in soup.find_all('script'):
                     if script.string:
-                        js_snippets.appeend(script.string)
+                        js_snippets.append(script.string)
                 report["suspicious_analysis"] = is_url_suspicious(link, js_snippets)
-            except:
+            except Exception:
                 report["suspicious_analysis"] = {"error": "Failed to analyze scripts"}
             
             
@@ -157,10 +157,12 @@ def scan_website(url, fast_mode=False, use_plugins=False, output_format="json", 
             report["ip"] = ip
             report["host_profile"] = get_host_profile(ip)
             
-        except:
+        except Exception:
             report["ip"] = None
             report["host_profile"] = {"error": "Could not resolve IP"}
-            scan_summary["reports"].append(report)
+
+        # Always record the report for this link
+        scan_summary["reports"].append(report)
 
     # Final risk score
     scan_summary["risk"] = calculate_risk_score(scan_summary)
