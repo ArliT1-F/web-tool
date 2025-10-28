@@ -1,9 +1,12 @@
 import os
 import json
 from jinja2 import Environment, FileSystemLoader
+from pathlib import Path
 
-# Setup Jinja2 environment once
-template_loader = FileSystemLoader("./templates")
+# Setup Jinja2 environment once, resolving templates
+PACKAGE_DIR = Path(__file__).resolve().parent
+DEFAULT_TEMPLATE_DIR = PACKAGE_DIR / "templates"
+template_loader = FileSystemLoader(str(DEFAULT_TEMPLATE_DIR))
 env = Environment(loader=template_loader)
 
 
@@ -36,10 +39,6 @@ def export_md_report(scan_data, output_path):
         return f"Markdown export failed: {e}"
 
 def save_scan_report(data, filename):
-    """Save JSON report to the provided path.
-
-    If 'filename' includes directories, they will be created automatically.
-    """
     output_dir = os.path.dirname(filename) or "."
     os.makedirs(output_dir, exist_ok=True)
     with open(filename, "w", encoding="utf-8") as f:
