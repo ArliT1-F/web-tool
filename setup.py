@@ -19,12 +19,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'websecscan = scanner:main'
+            'websecscan = scanner.core:main'
         ]
     },
     package_data={
         "scanner": ["templates/*.html", "templates/*.md"],
-
     },
     classifiers=[
         "Programming Language :: Python :: 3",
