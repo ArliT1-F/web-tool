@@ -105,6 +105,114 @@ python3 websecscan.py https://example.com --output md --active
 
 ---
 
+## 🚀 Run on GitHub (scheduled, auto-published reports)
+
+Follow these steps to host the project on GitHub and keep it running on a schedule via GitHub Actions. Reports will be committed to a `gh-pages` branch and published with GitHub Pages.
+
+### 1) Push this project to your GitHub repo
+- Create a new repository on GitHub (public or private)
+- From your local machine or CI environment:
+```bash
+git init
+git add .
+git commit -m "feat: initial import of WebSecScan"
+git branch -M main
+git remote add origin git@github.com:<your-username>/<your-repo>.git
+git push -u origin main
+```
+
+### 2) Add your VirusTotal API key as a secret
+- GitHub → Your repository → Settings → Secrets and variables → Actions → New repository secret
+- Name: `VIRUSTOTAL_API_KEY`
+- Value: your actual API key
+
+### 3) Add a `targets.txt` file (domains you own)
+- Create a file named `targets.txt` in the repo root containing one authorized URL per line, for example:
+```text
+https://example.com
+https://sub.example.com
+```
+
+### 4) Add the GitHub Actions workflow
+- Create the file `.github/workflows/websecscan.yml` with the following content:
+```yaml
+name: WebSecScan
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # daily at 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: websecscan
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    env:
+      VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install WebSecScan
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+
+      - name: Run scans
+        run: |
+          mkdir -p reports
+          TS=$(date -u +%Y%m%d_%H%M%S)
+          while IFS= read -r url; do
+            [ -z "$url" ] && continue
+            websecscan "$url" --output html --fast || true
+            dom=$(echo "$url" | sed 's|https\?://||; s|/||g')
+            if [ -f "reports/scan_${dom}.html" ]; then
+              mv "reports/scan_${dom}.html" "reports/${TS}_${dom}.html"
+            fi
+          done < targets.txt
+
+      - name: Upload artifact (reports)
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-${{ github.run_number }}
+          path: reports/
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: reports
+          keep_files: true
+```
+
+### 5) Enable GitHub Pages
+- Repo → Settings → Pages → Build and deployment
+- Source: `Deploy from a branch`
+- Branch: `gh-pages`, Folder: `/ (root)`
+- Save. Your reports will be available at `https://<your-username>.github.io/<your-repo>/`
+
+### 6) Run it now
+- Go to Actions → `WebSecScan` → Run workflow
+- After it finishes, view the Pages site or download the artifact
+
+### Notes and tips
+- Only include domains you own or are authorized to scan in `targets.txt`.
+- Remove `--fast` in the workflow to enable all checks (slower, more API use).
+- To keep history, the workflow timestamps report filenames; adjust as needed.
+- If you need private reports, skip GitHub Pages and rely on build artifacts only.
+- For heavy scans or tighter control, consider a VPS + `cron`/`systemd` instead of Actions.
+
 ## 🤝 Contributing
 Pull requests, feature suggestions, and plugins are welcome!
 Feel free to fork the project and submit your ideas, as I will be checking the project from time to time.
